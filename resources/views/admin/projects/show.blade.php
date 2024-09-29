@@ -20,7 +20,15 @@
     @if($project->type)
     <p>Tipo: {{ $project->type->name }}</p>
     @endif
-    <img class="img-fluid" src="{{ $project->img }}" alt="">
+    @if($project->technologies)
+    <h4>Tecnologie</h4>
+    @foreach ($project->technologies as $technology)
+    <span class="badge text-bg-secondary mb-4">{{ $technology->name }}</span>
+    @endforeach
+    @endif
+    <div>
+        <img class="img-fluid" src="{{ $project->img }}" alt="">
+    </div>
     <h3>Descrizione</h3>
     <p>{{ $project->description }}</p>
 </div>

@@ -25,8 +25,6 @@ class ProjectRequest extends FormRequest
             'name' => 'required|min:3|max:100',
             'img' => 'required|active_url',
             'description' => 'required|min:10',
-            'type_id' => 'exists:types,id',
-            'technologies' => 'exists:technologies,id'
         ];
     }
 

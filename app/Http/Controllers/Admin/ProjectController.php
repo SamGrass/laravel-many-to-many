@@ -37,9 +37,13 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         $data = $request->all();
+
         $data['slug'] = Helper::generateSlug($data['name'], Project::class);
         $project = Project::create($data);
-        $project->technologies()->attach($data['technologies']);
+        if (array_key_exists('technologies', $data)) {
+            $project->technologies()->attach($data['technologies']);
+        }
+
 
         return redirect()->route('admin.projects.show', $project);
     }
@@ -59,7 +63,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -72,6 +77,11 @@ class ProjectController extends Controller
             $data['slug'] = Helper::generateSlug($data['name'], project::class);
         }
         $project->update($data);
+        if (array_key_exists('technologies', $data)) {
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->detach();
+        }
         return redirect()->route('admin.projects.show', $project)->with('success', 'Elemento modificato con successo');
     }
 

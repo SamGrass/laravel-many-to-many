@@ -25,13 +25,28 @@
             <small class="text-danger">{{ $message }}</small>
             @enderror
         </div>
-        <select name="type_id" class="form-select" aria-label="Default select example">
-            <option value="" selected>Seleziona un tipo</option>
-            @foreach($types as $type)
-            <option value="{{ $type->id }}" @if(old('type_id', $project->type->id) === $type->id) selected @endif>{{
-                $type->name }}</option>
-            @endforeach
-        </select>
+        <div class="mb-3">
+            <select name="type_id" class="form-select" aria-label="Default select example">
+                <option value="" selected>Seleziona un tipo</option>
+                @foreach($types as $type)
+                <option value="{{ $type->id }}" @if(old('type_id', $project->type?->id) === $type->id) selected
+                    @endif>{{
+                    $type->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="img" class="form-label">Seleziona una o più tecnologie</label>
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                @foreach ($technologies as $technology)
+                <input type="checkbox" name="technologies[]" class="btn-check" id="technology-{{ $technology->id }}"
+                    value="{{ $technology->id }}" autocomplete="off"
+                    @checked($project->technologies->contains($technology))>
+                <label class="btn btn-outline-primary" for="technology-{{ $technology->id }}">{{ $technology->name
+                    }}</label>
+                @endforeach
+            </div>
+        </div>
         <div class="mb-3">
             <label for="img" class="form-label">Percorso immagine</label>
             <input type="text" class="form-control @error('img') is-invalid @enderror" id="img" name="img"

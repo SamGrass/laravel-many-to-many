@@ -31,6 +31,18 @@
             @endforeach
         </select>
         <div class="mb-3">
+            <label for="img" class="form-label">Seleziona una o più tecnologie</label>
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                @foreach ($technologies as $technology)
+                <input type="checkbox" name="technologies[]" class="btn-check" id="technology-{{ $technology->id }}"
+                    value="{{ $technology->id }}" autocomplete="off" @checked(in_array($technology->id,
+                old('technologies', [])))>
+                <label class="btn btn-outline-primary" for="technology-{{ $technology->id }}">{{ $technology->name
+                    }}</label>
+                @endforeach
+            </div>
+        </div>
+        <div class="mb-3">
             <label for="img" class="form-label">Percorso immagine</label>
             <input type="text" class="form-control @error('img') is-invalid @enderror" id="img" name="img"
                 value="{{ old('img') }}">

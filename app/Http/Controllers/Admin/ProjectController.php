@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Functions\Helper;
+use App\Models\Technology;
 use App\Models\Type;
 
 class ProjectController extends Controller
@@ -26,7 +27,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -37,6 +39,7 @@ class ProjectController extends Controller
         $data = $request->all();
         $data['slug'] = Helper::generateSlug($data['name'], Project::class);
         $project = Project::create($data);
+        $project->technologies()->attach($data['technologies']);
 
         return redirect()->route('admin.projects.show', $project);
     }

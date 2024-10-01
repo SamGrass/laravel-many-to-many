@@ -23,6 +23,8 @@ class Project extends Model
         'name',
         'slug',
         'img',
+        'img_path',
+        'img_name',
         'description',
     ];
 }

@@ -26,8 +26,16 @@
     <span class="badge text-bg-secondary mb-4">{{ $technology->name }}</span>
     @endforeach
     @endif
+    @if($project->img)
     <div>
+        <h3>Immagine URL</h3>
         <img class="img-fluid" src="{{ $project->img }}" alt="">
+    </div>
+    @endif
+    <div>
+        <h3>Immagine file</h3>
+        <img class="img-fluid" src="{{ asset('storage/' . $project->img_path) }}" alt="{{ $project->img_name }}"
+            onerror="this.src='/img/no-img.jpg'">
     </div>
     <h3>Descrizione</h3>
     <p>{{ $project->description }}</p>

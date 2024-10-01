@@ -3,7 +3,7 @@
 @section('content')
 <div class="py-2 px-4">
     <h2>Aggiungi il tuo nuovo project</h2>
-    <form action="{{ route('admin.projects.store') }}" method="POST">
+    <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         @if($errors->any())
@@ -46,6 +46,10 @@
                     }}</label>
                 @endforeach
             </div>
+        </div>
+        <div class="mb-3">
+            <label for="img_path" class="form-label">Immagine</label>
+            <input type="file" class="form-control" id="img_path" name="img_path">
         </div>
         <div class="mb-3">
             <label for="img" class="form-label">Percorso immagine</label>

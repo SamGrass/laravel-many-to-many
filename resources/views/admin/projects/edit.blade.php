@@ -3,7 +3,7 @@
 @section('content')
 <div class="py-2 px-4">
     <h2>Modifica il tuo project</h2>
-    <form action="{{ route('admin.projects.update', $project) }}" method="POST">
+    <form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         @method('PUT')
@@ -48,6 +48,15 @@
             </div>
         </div>
         <div class="mb-3">
+            <label for="img_path" class="form-label">Immagine</label>
+            <input type="file" class="form-control" id="img_path" name="img_path" onchange="showImg(event)">
+            @error('img_path')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+            <img src="{{ asset('storage/' . $project->img_path) }}" onerror="this.src='/img/no-img.jpg'"
+                class="w-25 mt-2" id="thumb_img" alt="">
+        </div>
+        <div class="mb-3">
             <label for="img" class="form-label">Percorso immagine</label>
             <input type="text" class="form-control @error('img') is-invalid @enderror" id="img" name="img"
                 value="{{ old('img', $project->img) }}">
@@ -70,4 +79,11 @@
 
     </form>
 </div>
+
+<script>
+    function showImg(event){
+        const thumb = document.getElementById('thumb_img');
+        thumb.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 @endsection

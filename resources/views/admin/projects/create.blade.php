@@ -49,7 +49,11 @@
         </div>
         <div class="mb-3">
             <label for="img_path" class="form-label">Immagine</label>
-            <input type="file" class="form-control" id="img_path" name="img_path">
+            <input type="file" class="form-control" id="img_path" name="img_path" onchange="showImg(event)">
+            @error('img_path')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+            <img src="/img/no-img.jpg" class="w-25 mt-2" id="thumb_img" alt="">
         </div>
         <div class="mb-3">
             <label for="img" class="form-label">Percorso immagine</label>
@@ -74,4 +78,11 @@
 
     </form>
 </div>
+
+<script>
+    function showImg(event){
+        const thumb = document.getElementById('thumb_img');
+        thumb.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 @endsection

@@ -83,6 +83,15 @@ class ProjectController extends Controller
         if (!$data['name'] === $project->name) {
             $data['slug'] = Helper::generateSlug($data['name'], project::class);
         }
+        if (array_key_exists('img_path', $data)) {
+            if ($project->img_path) {
+                Storage::delete($project->img_path);
+            }
+            $img_path = Storage::put('uploads', $data['img_path']);
+            $img_name = $request->file('img_path')->getClientOriginalName();
+            $data['img_path'] = $img_path;
+            $data['img_name'] = $img_name;
+        }
         $project->update($data);
         if (array_key_exists('technologies', $data)) {
             $project->technologies()->sync($data['technologies']);
@@ -97,6 +106,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if ($project->img_path) {
+            Storage::delete($project->img_path);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('deleted', 'Elemento eliminato con successo');
     }
